@@ -1,3 +1,4 @@
+const database = require("./dataBase");
 const movies = [
   {
     id: 1,
@@ -25,23 +26,127 @@ const movies = [
   },
 ];
 
+
+
+
+//tous les film
 const getMovies = (req, res) => {
-  res.json(movies);
-};
+  database
+  
+      .query("select * from movies")
+  
+      .then(([movies]) => {
+  
+        res.json(movies);
+  
+      })
+  
+      .catch((err) => {
+  
+        console.error(err);
+  
+        res.status(500).send("Error retrieving data from database");
+  
+      });
+  
+  };
 
-const getMovieById = (req, res) => {
-  const id = parseInt(req.params.id);
+  //film indiv
 
-  const movie = movies.find((movie) => movie.id === id);
+  const getMovieById = (req, res) => {
 
-  if (movie != null) {
-    res.json(movie);
-  } else {
-    res.status(404).send("Not Found");
-  }
-};
+    const id = parseInt(req.params.id);
+  
+  
+    database
+  
+      .query("select * from movies where id = ?", [id])
+  
+      .then(([movies]) => {
+  
+        if (movies[0] != null) {
+  
+          res.json(movies[0]);
+  
+        } else {
+  
+          res.status(404).send("Not Found");
+  
+        }
+  
+      })
+  
+      .catch((err) => {
+  
+        console.error(err);
+  
+        res.status(500).send("Error retrieving data from database");
+  
+      });
+  
+  };
+
+//tous les users
+
+  const getUser = (req, res) => {
+    database
+    
+        .query("select * from users")
+    
+        .then(([users]) => {
+    
+          res.json(users);
+    
+        })
+    
+        .catch((err) => {
+    
+          console.error(err);
+    
+          res.status(500).send("Error retrieving data from database");
+    
+        });
+    
+    };
+
+    //user indiv
+
+  const getUserById = (req, res) => {
+
+    const id = parseInt(req.params.id);
+  
+  
+    database
+  
+      .query("select * from users where id = ?", [id])
+  
+      .then(([users]) => {
+  
+        if (users[0] != null) {
+  
+          res.json(users[0]);
+  
+        } else {
+  
+          res.status(404).send("Not Found");
+  
+        }
+  
+      })
+  
+      .catch((err) => {
+  
+        console.error(err);
+  
+        res.status(500).send("Error retrieving data from database");
+  
+      });
+  
+  };
 
 module.exports = {
   getMovies,
   getMovieById,
+  getUser,
+  getUserById,
 };
