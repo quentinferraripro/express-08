@@ -144,9 +144,79 @@ const getMovies = (req, res) => {
   
   };
 
-module.exports = {
+  //////////// POST movie
+
+  const postMovie = (req, res) => {
+
+    const { title, director, year, color, duration } = req.body;
+  
+  
+    database
+  
+      .query(
+  
+        "INSERT INTO movies(title, director, year, color, duration) VALUES (?, ?, ?, ?, ?)",
+  
+        [title, director, year, color, duration]
+  
+      )
+  
+      .then(([result]) => {
+  
+        res.location(`/api/movies/${result.insertId}`).sendStatus(201);
+  
+      })
+  
+      .catch((err) => {
+  
+        console.error(err);
+  
+        res.status(500).send("Error saving the movie");
+  
+      });
+  
+  };
+
+  //////////// POST movie
+
+  const postUser = (req, res) => {
+
+    const { id, firstname, lastname, email, city, language } = req.body;
+  
+  
+    database
+  
+      .query(
+  
+        "INSERT INTO users(id, firstname, lastname, email, city, language) VALUES (?, ?, ?, ?, ?, ?)",
+  
+        [id, firstname, lastname, email, city, language]
+  
+      )
+  
+      .then(([result]) => {
+  
+        res.location(`/api/users/${result.insertId}`).sendStatus(201);
+  
+      })
+  
+      .catch((err) => {
+  
+        console.error(err);
+  
+        res.status(500).send("Error saving the user");
+  
+      });
+  
+  };
+  
+  
+  
+  module.exports = {
   getMovies,
   getMovieById,
   getUser,
   getUserById,
+  postMovie,
+  postUser,
 };

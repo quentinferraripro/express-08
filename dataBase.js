@@ -26,7 +26,5 @@ database
   
 
 
-
   
-
   module.exports = database
