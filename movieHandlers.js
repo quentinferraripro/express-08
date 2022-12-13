@@ -91,7 +91,7 @@ const getMovies = (req, res) => {
 //tous les users
 
 const getUser = (req, res) => {
-  const initialSql = "select * from users";
+  const initialSql = "select firstname, lastname, email, city, language from users";
   const where = [];
 
   if (req.query.language != null) {
@@ -200,16 +200,16 @@ const getUser = (req, res) => {
 
   const postUser = (req, res) => {
 
-    const { id, firstname, lastname, email, city, language } = req.body;
+    const { firstname, lastname, email, city, language, hashedPassword } = req.body;
   
   
     database
   
       .query(
   
-        "INSERT INTO users(id, firstname, lastname, email, city, language) VALUES (?, ?, ?, ?, ?, ?)",
+        "INSERT INTO users(firstname, lastname, email, city, language, hashedPassword) VALUES (?, ?, ?, ?, ?, ?)",
   
-        [id, firstname, lastname, email, city, language]
+        [firstname, lastname, email, city, language, hashedPassword]
   
       )
   

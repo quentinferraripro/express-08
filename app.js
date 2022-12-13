@@ -1,5 +1,6 @@
 require("dotenv").config();
 const express = require("express");
+const { hashPassword } = require("./auth.js");
 
 const app = express();
 app.use(express.json());
@@ -18,7 +19,7 @@ app.get("/api/movies/:id", movieHandlers.getMovieById);
 app.get("/api/users", movieHandlers.getUser);
 app.get("/api/users/:id", movieHandlers.getUserById);
 app.post("/api/movies", movieHandlers.postMovie);
-app.post("/api/users", movieHandlers.postUser);
+app.post("/api/users", hashPassword, movieHandlers.postUser);
 app.put("/api/users/:id", movieHandlers.updateUser);
 app.put("/api/movies/:id", movieHandlers.updateMovie);
 app.delete("/api/movies/:id", movieHandlers.deleteMovie);
@@ -31,5 +32,8 @@ app.listen(port, (err) => {
     console.log(`Server is listening on ${port}`);
   }
 });
+
+
+
 
 
